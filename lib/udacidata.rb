@@ -29,6 +29,33 @@ class Udacidata
     end
   end
 
+  def self.destroy(id)
+    file = File.dirname(__FILE__) + "/../data/data.csv"
+    data = CSV.read(file)
+    header = data.shift
+
+    data.each do |row|
+      if row[0].to_i == id
+        deleted_obj = self.create(id: row[0], brand: row[1], name: row[2], price: row[3])
+        data.delete(row)
+        write_to_file(file, header, data)
+        return deleted_obj
+      end
+    end
+  end
+
+  def self.write_to_file(file, header, data)
+    CSV.open(file, "wb") do |csv|
+      csv << header
+    end
+
+    data.each do |row|
+      CSV.open(file, "ab") do |csv|
+        csv << row
+      end
+    end
+  end
+
   def self.all
     file = File.dirname(__FILE__) + "/../data/data.csv"
     data = CSV.read(file)
