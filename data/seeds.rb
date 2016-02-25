@@ -4,5 +4,11 @@ require 'faker'
 # fake data for testing purposes
 
 def db_seed
-  # Your code goes here!
+  file = File.dirname(__FILE__) + "/../data/data.csv"
+
+  (1..21).each do |i|
+    CSV.open(file, "ab") do |csv|
+      csv << [i, Faker::Company.name, Faker::Commerce.product_name, Faker::Commerce.price]
+    end
+  end
 end
