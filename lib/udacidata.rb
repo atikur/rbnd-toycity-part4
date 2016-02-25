@@ -20,6 +20,15 @@ class Udacidata
     obj
   end
 
+  def self.find(id)
+    file = File.dirname(__FILE__) + "/../data/data.csv"
+    data = CSV.read(file)
+    data.shift
+    data.each do |row|
+      return self.create(id: row[0], brand: row[1], name: row[2], price: row[3]) if row[0].to_i == id
+    end
+  end
+
   def self.all
     file = File.dirname(__FILE__) + "/../data/data.csv"
     data = CSV.read(file)
