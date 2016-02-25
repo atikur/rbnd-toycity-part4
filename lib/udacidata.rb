@@ -3,6 +3,32 @@ require_relative 'errors'
 require 'csv'
 
 class Udacidata
+
+  def update(options={})
+    name = options[:name]
+    brand = options[:brand]
+    price = options[:price]
+
+    @name = name if name != nil
+    @brand = brand if brand != nil
+    @price = price if price != nil
+
+    file = File.dirname(__FILE__) + "/../data/data.csv"
+    data = CSV.read(file)
+    header = data.shift
+
+    data.each_with_index do |product, index|
+      if product[0].to_i == self.id
+        data[index] = [self.id, self.brand, self.name, self.price]
+        break
+      end
+    end
+
+    self.class.write_to_file(file, header, data)
+
+    return self
+  end
+
   def self.create(options={})
     file = File.dirname(__FILE__) + "/../data/data.csv"
     existing_contents = CSV.read(file)

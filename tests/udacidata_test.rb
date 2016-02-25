@@ -138,12 +138,12 @@ class TestUdacidata < MiniTest::Test
     end
   end
   
-  # def test_update_info_of_existing_product
-  #   product = Product.find(4).update(price: 100000.00, brand: "Lolerskater")
-  #   actual = [product.price.to_f, product.brand]
-  #   expected = [100000.00, "Lolerskater"]
-  #   assert_equal(expected, actual)
-  # end
+  def test_update_info_of_existing_product
+    product = Product.find(4).update(price: 100000.00, brand: "Lolerskater")
+    actual = [product.price.to_f, product.brand]
+    expected = [100000.00, "Lolerskater"]
+    assert_equal(expected, actual)
+  end
 
   # The "teardown" method always runs after the tests are done
   # "teardown" will delete the test database when tests are done
