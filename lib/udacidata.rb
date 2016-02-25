@@ -29,6 +29,10 @@ class Udacidata
     return self
   end
 
+  def to_s
+    @name
+  end
+
   def self.create(options={})
     file = File.dirname(__FILE__) + "/../data/data.csv"
     existing_contents = CSV.read(file)
@@ -57,15 +61,16 @@ class Udacidata
     raise ProductNotFoundError, "Product with id #{id} not found."
   end
 
-  def self.find_by_brand(brand_name)
-    self.all.each do |product|
-      return product if product.brand == brand_name 
-    end
-  end
+  def self.method_missing(name, *arguments)
+    if name.to_s.start_with?("find_by_")
+      name_parts = name.to_s.split("_")
+      if name_parts.length != 3
+        return
+      end
 
-  def self.find_by_name(product_name)
-    self.all.each do |product|
-      return product if product.name == product_name
+      self.all.each do |product|
+        return product if product.send(name_parts.last) == arguments[0]
+      end
     end
   end
 
