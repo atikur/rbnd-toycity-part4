@@ -29,6 +29,29 @@ class Udacidata
     end
   end
 
+  def self.find_by_brand(brand_name)
+    self.all.each do |product|
+      return product if product.brand == brand_name 
+    end
+  end
+
+  def self.find_by_name(product_name)
+    self.all.each do |product|
+      return product if product.name == product_name
+    end
+  end
+
+  def self.where(options={})
+    brand = options[:brand]
+    name = options[:name]
+
+    if brand != nil
+      self.all.select { |product| product.brand == brand }
+    elsif name != nil
+      self.all.select { |product| product.name == name }
+    end
+  end
+
   def self.destroy(id)
     file = File.dirname(__FILE__) + "/../data/data.csv"
     data = CSV.read(file)
