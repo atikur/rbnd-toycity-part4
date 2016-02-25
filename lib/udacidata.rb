@@ -19,4 +19,21 @@ class Udacidata
     end
     obj
   end
+
+  def self.all
+    file = File.dirname(__FILE__) + "/../data/data.csv"
+    data = CSV.read(file)
+    data.shift
+    data.map! { |row| self.create(id: row[0], brand: row[1], name: row[2], price: row[3]) }
+  end
+
+  def self.first(n=1)
+    return self.all.first if n == 1
+    self.all.first(n)
+  end
+
+  def self.last(n=1)
+    return self.all.last if n == 1
+    self.all.last(n)
+  end
 end
