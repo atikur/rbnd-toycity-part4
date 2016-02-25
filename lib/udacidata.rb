@@ -53,6 +53,8 @@ class Udacidata
     data.each do |row|
       return self.create(id: row[0], brand: row[1], name: row[2], price: row[3]) if row[0].to_i == id
     end
+
+    raise ProductNotFoundError, "Product with id #{id} not found."
   end
 
   def self.find_by_brand(brand_name)
@@ -91,6 +93,8 @@ class Udacidata
         return deleted_obj
       end
     end
+
+    raise ProductNotFoundError, "Product with id #{id} not found."
   end
 
   def self.write_to_file(file, header, data)
