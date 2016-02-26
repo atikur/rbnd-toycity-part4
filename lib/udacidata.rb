@@ -5,13 +5,9 @@ require 'csv'
 class Udacidata
 
   def update(options={})
-    name = options[:name]
-    brand = options[:brand]
-    price = options[:price]
-
-    @name = name if name != nil
-    @brand = brand if brand != nil
-    @price = price if price != nil
+    name = options[:name] ? options[:name] : self.name
+    brand = options[:brand] ? options[:brand] : self.brand
+    price = options[:price] ? options[:price] : self.price
 
     file = File.dirname(__FILE__) + "/../data/data.csv"
     data = CSV.read(file)
@@ -19,14 +15,14 @@ class Udacidata
 
     data.each_with_index do |product, index|
       if product[0].to_i == self.id
-        data[index] = [self.id, self.brand, self.name, self.price]
+        data[index] = [self.id, brand, name, price]
         break
       end
     end
 
     self.class.write_to_file(file, header, data)
 
-    return self
+    return self.class.create(id: self.id, brand: brand, name: name, price: price)
   end
 
   def to_s
